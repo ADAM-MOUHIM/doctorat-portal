@@ -14,9 +14,7 @@
     <description>Projet parent pour les microservices </description>
 
     <modules>
-        <module>user-service</module>
         <module>inscription-service</module>
-        <module>gateway-service</module>
         <module>user-service</module>
         <module>gateway-service</module>
         <module>eureka-service</module>

@@ -2,9 +2,16 @@ server:
   port: 8083
 
 spring:
-  application:
-    name: soutenance-service
-
+  datasource:
+    url: jdbc:postgresql://localhost:5432/soutenances_db
+    username: doctorat       # OU postgres, selon ce que tu utilises
+    password: doctorat       # idem
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 # Eureka Client Configuration
 eureka:
   client:
