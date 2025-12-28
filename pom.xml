@@ -1,33 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- 🔹 Spring Boot parent like in Ali's pom -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.5</version>
+        <relativePath/> <!-- lookup parent from Maven central -->
+    </parent>
+
+    <!-- 🔹 Your project coordinates -->
     <groupId>com.devbuild</groupId>
     <artifactId>doctorat-portal</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>doctorat-portal</name>
-    <description>Projet parent pour les microservices </description>
+    <description>Projet parent pour les microservices</description>
 
+    <!-- 🔹 All your microservice modules -->
     <modules>
-        <module>inscription-service</module>
-        <module>user-service</module>
         <module>gateway-service</module>
         <module>eureka-service</module>
-        <module>notifications-service</module>
-        <module>soutenances-service</module>
+        <module>backend/account-service</module>
+        <module>backend/auth-service</module>
+        <module>backend/notifications-service</module>
+        <module>backend/soutenances-service</module>
+        <!-- ajoute d'autres modules ici si besoin -->
     </modules>
 
     <properties>
-        <java.version>25</java.version>
-        <spring-boot.version>3.4.1</spring-boot.version>
+        <!-- mêmes valeurs qu’Ali -->
+        <java.version>17</java.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
+        <mapstruct.version>1.6.2</mapstruct.version>
     </properties>
+
+    <!-- 🔹 Spring Cloud BOM (Boot BOM est déjà géré par le parent) -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

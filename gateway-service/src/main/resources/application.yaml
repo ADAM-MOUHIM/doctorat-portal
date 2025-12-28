@@ -7,95 +7,51 @@ spring:
 
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
       routes:
-        # User Service
-        - id: user-service-route
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/users/**
-          filters:
-            - StripPrefix=0
-
-        # Inscription Service - Auth
-        - id: inscription-service-auth-route
-          uri: lb://SERVICEAUTH
+        - id: auth-service
+          uri: lb://auth-service
           predicates:
             - Path=/auth/**
-          filters:
-            - StripPrefix=0
-
-        # Inscription Service - Accounts
-        - id: inscription-service-accounts-route
-          uri: lb://SERVICEAUTH
+        - id: account-service
+          uri: lb://account-service
           predicates:
-            - Path=/accounts/**
-          filters:
-            - StripPrefix=0
-
-        # Inscription Service - Profile
-        - id: inscription-service-profile-route
-          uri: lb://SERVICEAUTH
-          predicates:
-            - Path=/profile/**
-          filters:
-            - StripPrefix=0
-
-        # Soutenance Service - NEW
-        - id: soutenance-service-route
-          uri: lb://SOUTENANCE-SERVICE
+            - Path=/accounts/**,/profiles/**,/admin/**,/departments/**,/laboratories/**
+        - id: soutenance-service
+          uri: lb://soutenances-service
           predicates:
             - Path=/soutenances/**
-          filters:
-            - StripPrefix=0
-
-        # Notification Service - NEW
-        - id: notification-service-route
-          uri: lb://NOTIFICATION-SERVICE
+        - id: notification-service
+          uri: lb://notifications-service
           predicates:
             - Path=/notifications/**
-          filters:
-            - StripPrefix=0
+      default-filters: []
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:4200
+            allowedOriginPatterns:
+              - http://localhost:4200
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
 
-# Eureka Client Configuration
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
-# Info
-info:
-  app:
-    name: Gateway Service
-    description: API Gateway with dynamic service discovery
-    version: 1.0.0
-
-# Management
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,env,gateway
-  endpoint:
-    health:
-      show-details: always
-    gateway:
-      enabled: true
-  info:
-    env:
-      enabled: true
-
-# Logging
-logging:
-  level:
-    root: INFO
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.cloud.netflix.eureka: DEBUG
+        include: health,info
