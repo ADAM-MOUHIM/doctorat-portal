@@ -1,0 +1,36 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: inscription-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/auth_db
+    username: postgres
+    password: 1234
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: INFO
+    org.springframework.security: INFO
+
+app:
+  jwt:
+    issuer: serviceAuth
+    secret: "T1Yt9cV5yZ0R3Q0p4uHn8Aq2Lw7mN3sX6pB4dF1kJ9rE2tV8cH5qZ7yW0uM6nR3"
+    access-token-expiration: 3600
+    refresh-token-expiration: 2592000
